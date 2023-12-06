@@ -15,7 +15,8 @@ export class BackEndService {
 
   //saving data from creating post
   saveData(post: Post){
-    this.http.put(`https://crud-app-f0d6e-default-rtdb.asia-southeast1.firebasedatabase.app/posts/${post.ownerId}.json`, post)
+    this.http.put(`https://angular1-552c1-default-rtdb.firebaseio.com${post.ownerId}.json`, post)
+    // https://angular1-552c1-default-rtdb.firebaseio.com/app/posts
     .subscribe((res)=>{
       console.log(res);
     })
@@ -23,7 +24,7 @@ export class BackEndService {
 
   //fetching data from firebase for viewing in home
   fetchData(){
-    return this.http.get<Post[]>('https://crud-app-f0d6e-default-rtdb.asia-southeast1.firebasedatabase.app/posts.json')
+    return this.http.get<Post[]>('https://angular1-552c1-default-rtdb.firebaseio.com.json')
     .pipe(tap((listsOfPosts: Post[]) => {
         listsOfPosts = listsOfPosts.filter(post => post.ownerId === this.authService.userId); 
         console.log(listsOfPosts);
@@ -35,7 +36,7 @@ export class BackEndService {
   //updating the data 
   updateData(index: number, updatedPost: Post) {
         this.postService.updatePost(index, updatedPost);
-    this.http.put(`https://crud-app-f0d6e-default-rtdb.asia-southeast1.firebasedatabase.app/posts/${index}.json`, updatedPost)
+    this.http.put(`https://angular1-552c1-default-rtdb.firebaseio.com${index}.json`, updatedPost)
         .subscribe(response => {
             console.log(response);
         });
@@ -44,7 +45,7 @@ export class BackEndService {
   //deleting data from firebase
   deleteData(index: number){
     this.postService.deleteButton(index);
-    this.http.delete(`https://crud-app-f0d6e-default-rtdb.asia-southeast1.firebasedatabase.app/posts/${index}.json`)
+    this.http.delete(`https://angular1-552c1-default-rtdb.firebaseio.com${index}.json`)
         .subscribe(response => {
             console.log(response);
         });
@@ -57,7 +58,7 @@ export class BackEndService {
         post.comments = [];
     }
     post.comments.push(comment);
-    this.http.put(`https://crud-app-f0d6e-default-rtdb.asia-southeast1.firebasedatabase.app/posts/${index}.json`, post)
+    this.http.put(`https://angular1-552c1-default-rtdb.firebaseio.com${index}.json`, post)
       .subscribe(response => {
         console.log(response);
       });
